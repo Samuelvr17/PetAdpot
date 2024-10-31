@@ -2,11 +2,13 @@
 
 {% block content%}
 
+{% load static %}
+
         <!-- Header-->
         <header class="bg-dark py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Encuentre su Mascota Favorita</h1>
+                    <h1 class="display-4 fw-bolder">Bienvenido a PetAdopt</h1>
                     
                 </div>
             </div>
@@ -23,54 +25,16 @@
             </div>
         </section>
 
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-
-                    {% for mascota in mascotas %}
-                        
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                
-                                <!-- Product image-->
-                                <img class="card-img-top" src="{{ mascota.image.url }}" alt="..." />
-                                <!-- Product details -->
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                        <h5 class="fw-bolder">{{ mascota.name }}</h5>
-                                        <br>
-                                        
-                                        <strong>Años: </strong>{{ mascota.edad }}
-                                        <br>
-                                        <strong>Tamaño: </strong>{{ mascota.tamano }} 
-                                        <br>
-
-                                        <!--
-                                        <strong>Vacunas: </strong>
-                                        {% for mascota_vacuna in mascota.mascotavacuna_set.all %}
-                                            {{ mascota_vacuna.vacuna.nombre_vacuna }} (Aplicada el: {{ mascota_vacuna.fecha_aplicacion|date:"Y-m-d" }})
-                                            <br>
-                                        {% empty %}
-                                            No tiene vacunas registradas.
-                                        {% endfor %}
-                                        -->
-                          
-                                    </div>
-                                </div>
-
-                                
-
-                                <!-- Product actions-->
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'mascota' mascota.id %}">Ver mascota</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    {% endfor %}
-                    
+        <section class="py-5 bg-light">
+            <div class="container px-4 px-lg-5">
+                <div class="text-center">
+                    <h2 class="fw-bold">¿Como adoptar una Mascota?</h2>
+                    <img src="{% static 'imagenes/guia.jpeg' %}" alt="Guia de pasos" style="display: block; margin: 0 auto;">
+                </div>
+            </div>
+           <br><br>
+            <div style="display: flex; justify-content: center;">
+                <a href="{% url 'lista_mascotas' %}" class="btn btn-primary btn-lg">Buscar Mascotas</a>
             </div>
         </section>
 

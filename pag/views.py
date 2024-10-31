@@ -73,8 +73,13 @@ def eliminar_lugar(request, pk):
 
 
 def home(request):
+    
+    return render(request, 'home.html', {})
+
+
+def lista_mascotas(request):
     mascotas = Mascota.objects.all()
-    return render(request, 'home.html', {'mascotas':mascotas})
+    return render(request, 'lista_mascotas.html', {'mascotas':mascotas})
 
 
 def login_user(request):

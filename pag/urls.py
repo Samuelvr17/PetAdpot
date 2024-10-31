@@ -14,6 +14,7 @@ urlpatterns = [
     path('tipo/<str:foo>', views.tipo, name='tipo'),
     path('tipo_summary/', views.tipo_summary, name='tipo_summary'),
     path('search/', views.search, name='search'),
+    path('lista_mascotas/', views.lista_mascotas, name='lista_mascotas'),
 
 
     # CRUD de Mascotas
