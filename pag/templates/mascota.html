@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-md-6">
+                <div class="image-container">
+                    <img src="{{ mascota.image.url }}" class="card-img" alt="{{ mascota.name }}">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h5 class="card-title">{{ mascota.name }}</h5>
+                    <p><strong>Tamaño:</strong> {{ mascota.tamano }}</p>
+                    <p><strong>Años:</strong> {{ mascota.edad }}</p>
+                    <p><strong>Sexo:</strong> {{ mascota.sexo }}</p>
+                    <p><strong>Descripción:</strong> {{ mascota.descripcion }}</p>
+                    <p><strong>Ubicación de la Mascota:</strong> {{ mascota.lugar_adopcion }}</p>
+                    <p><strong>Vacunas:</strong>
+                        {% for mascota_vacuna in mascota.mascotavacuna_set.all %}
+                            {{ mascota_vacuna.vacuna.nombre_vacuna }} (Aplicada el: {{ mascota_vacuna.fecha_aplicacion|date:"Y-m-d" }})<br>
+                        {% empty %}
+                            No tiene vacunas registradas.
+                        {% endfor %}
+                    </p>
+                    <div class="mt-3">
+                        <a href="{% url 'home' %}" class="btn btn-secondary">Volver a Inicio</a>
+                        <button type="button" value="{{ mascota.id }}" class="btn btn-secondary" id="add-cart">Solicitar Adopción</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/><br/><br/>
+
+{% endblock %}
