@@ -15,6 +15,7 @@ urlpatterns = [
     path('tipo_summary/', views.tipo_summary, name='tipo_summary'),
     path('search/', views.search, name='search'),
     path('lista_mascotas/', views.lista_mascotas, name='lista_mascotas'),
+    path('lista_lugares/', views.lista_lugares, name='lista_lugares'),
 
 
     # CRUD de Mascotas
