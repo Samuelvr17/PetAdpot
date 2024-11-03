@@ -12,10 +12,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Inicio</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'home' %}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'search' %}">Buscar</a>
+                    <a class="nav-link" aria-current="page" href="{% url 'search' %}">Buscar</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -44,16 +44,41 @@
                     </li> 
 
                     {% if user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'crear_mascota' %}">Añadir Mascota</a>
-                        </li>
+        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" 
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Opciones Mascotas
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'crear_tipo_mascota' %}">Añadir Tipo Mascota</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'crear_mascota' %}">Añadir Mascota</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'buscar_mascota' %}">Editar Mascota</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'buscar_mascota_eliminar' %}">Eliminar Mascota</a></li>
+                            </ul>
+                        </li>    
                         
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'crear_lugar' %}">Añadir Lugar Adopción</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" 
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Opciones Lugares Adopción
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'crear_lugar' %}">Añadir Lugar Adopción</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'buscar_lugar' %}">Editar Lugar de Adopción</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'buscar_lugar_eliminar' %}">Eliminar Lugar de Adopción</a></li>
+                            </ul>
                         </li>
+
                     {% endif %}
 
                     <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Salir</a></li>
+
                 {% else %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Iniciar Sesión</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Registrarse</a></li>

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Editar Mascota</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Busca y edita la info de la mascota</p>
+        </div>
+    </div>
+</header>
+
+<!-- Formulario de Búsqueda -->
+<div class="container my-4" style="max-width: 600px; margin: 0 auto;">
+    <form method="GET" action="{% url 'buscar_mascota' %}">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" placeholder="Buscar por nombre de mascota" value="{{ query }}">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+</div>
+
+<!-- Resultados de Búsqueda -->
+{% if mascotas %}
+    <div class="container my-4" style="max-width: 600px; margin: 0 auto;">
+        <h3>Resultados de la Búsqueda:</h3>
+        <ul class="list-group">
+            {% for mascota in mascotas %}
+                <li class="list-group-item">
+                    <a href="{% url 'editar_mascota' pk=mascota.id %}">{{ mascota.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+<!-- Formulario de Edición -->
+{% if mascota %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">Actualizar</button>
+                    <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<br><br><br><br><br><br>
+{% endblock %}

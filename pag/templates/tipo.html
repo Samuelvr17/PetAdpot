@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block content%}
+{% block content %}
 
         <!-- Header-->
         <header class="bg-dark py-5">
@@ -16,37 +16,42 @@
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-                    {% for mascota in mascotas %}
-
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <!-- Product image-->
-                                <img class="card-img-top" src="{{ mascota.image.url }}" alt="..." />
-                                <!-- Product details-->
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <!-- Product name-->
-                                        <h5 class="fw-bolder">{{ mascota.name }}</h5>
-                                        <br>
-                    
-                                        <strong>Años: </strong>{{ mascota.edad }}
-                                        <br>
-                                        <strong>Tamaño: </strong>{{ mascota.tamano }} 
-                                        <br>
-
+                    {% if mascotas %}
+                        {% for mascota in mascotas %}
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <!-- Product image-->
+                                    <img class="card-img-top" src="{{ mascota.image.url }}" alt="..." />
+                                    <!-- Product details-->
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <!-- Product name-->
+                                            <h5 class="fw-bolder">{{ mascota.name }}</h5>
+                                            <br>
+                                            <strong>Años: </strong>{{ mascota.edad }}
+                                            <br>
+                                            <strong>Tamaño: </strong>{{ mascota.tamano }} 
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <!-- Product actions-->
+                                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'mascota' mascota.id %}">Ver Mascota</a></div>
                                     </div>
                                 </div>
-                                <!-- Product actions-->
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'mascota' mascota.id %}">Ver Mascota</a></div>
-                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-12 text-center">
+                            <div class="alert alert-warning" role="alert" style="border-radius: 8px;">
+                                <h4 class="alert-heading"><i class="fas fa-exclamation-circle"></i> No hay mascotas disponibles</h4>
+                                <p>Por ahora no hay mascotas en esta categoría. ¡Vuelve pronto para ver nuevos registros!</p>
                             </div>
                         </div>
-                        
-                    {% endfor %}
+                    {% endif %}
                     
+                </div>
             </div>
         </section>
 
 {% endblock %}
-        

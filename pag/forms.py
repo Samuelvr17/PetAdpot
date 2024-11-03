@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
-from .models import Profile, Mascota, LugarAdopcion
+from .models import Profile, Mascota, LugarAdopcion, Tipo
 
 
 class MascotaForm(forms.ModelForm):
@@ -33,7 +33,6 @@ class MascotaForm(forms.ModelForm):
         self.fields['image'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Subir imagen de la mascota'})
 
 
-
 class LugarAdopcionForm(forms.ModelForm):
     class Meta:
         model = LugarAdopcion
@@ -52,6 +51,18 @@ class LugarAdopcionForm(forms.ModelForm):
         self.fields['ubicacion'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Ubicación del Lugar'})
         self.fields['telefono'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Teléfono de Contacto'})
 
+
+class TipoMascotaForm(forms.ModelForm):
+    class Meta:
+        model = Tipo
+        fields = ['name']
+        labels = {
+            'name': '',  # Deja el label vacío para que no se muestre
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(TipoMascotaForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Nombre del tipo de mascota'})
 
 
 class SignUpForm(UserCreationForm):

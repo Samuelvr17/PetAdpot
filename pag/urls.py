@@ -19,12 +19,18 @@ urlpatterns = [
 
 
     # CRUD de Mascotas
+    path('tipo-mascota/nuevo/', views.crear_tipo_mascota, name='crear_tipo_mascota'),
     path('mascota/nueva/', views.crear_mascota, name='crear_mascota'),
     path('mascota/editar/<int:pk>/', views.editar_mascota, name='editar_mascota'),
+    path('mascota/editar/', views.editar_mascota, name='buscar_mascota'),
     path('mascota/eliminar/<int:pk>/', views.eliminar_mascota, name='eliminar_mascota'),
+    path('mascota/eliminar/', views.eliminar_mascota, name='buscar_mascota_eliminar'),
+
 
     # CRUD de Lugares de Adopción
     path('lugar/nuevo/', views.crear_lugar, name='crear_lugar'),
     path('lugar/editar/<int:pk>/', views.editar_lugar, name='editar_lugar'),
+    path('lugar/editar/', views.editar_lugar, name='buscar_lugar'),
     path('lugar/eliminar/<int:pk>/', views.eliminar_lugar, name='eliminar_lugar'),
+    path('lugar/eliminar/', views.eliminar_lugar, name='buscar_lugar_eliminar'),
 ]

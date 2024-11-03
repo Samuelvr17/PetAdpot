@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import SignUpForm, UserInfoForm, UpdateUserForm, ChangePasswordForm, MascotaForm, LugarAdopcionForm
+from .forms import SignUpForm, UserInfoForm, UpdateUserForm, ChangePasswordForm, MascotaForm, LugarAdopcionForm, TipoMascotaForm
 from .models import Mascota, Tipo, Profile, LugarAdopcion
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -20,24 +20,60 @@ def crear_mascota(request):
     return render(request, 'formulario_mascota.html', {'form': form})
 
 # Editar mascota existente
-def editar_mascota(request, pk):
-    mascota = get_object_or_404(Mascota, pk=pk)
-    if request.method == 'POST':
-        form = MascotaForm(request.POST, request.FILES, instance=mascota)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Mascota actualizada exitosamente.')
-            return redirect('home')
+def editar_mascota(request, pk=None):
+    mascota = None
+    form = None
+
+    # Si el usuario ha enviado un término de búsqueda por nombre
+    query = request.GET.get('query')
+    if query:
+        mascotas = Mascota.objects.filter(name__icontains=query)
     else:
-        form = MascotaForm(instance=mascota)
-    return render(request, 'formulario_mascota.html', {'form': form})
+        mascotas = None
+
+    # Si se recibe un pk específico para edición, cargar la mascota correspondiente
+    if pk:
+        mascota = get_object_or_404(Mascota, pk=pk)
+        if request.method == 'POST':
+            form = MascotaForm(request.POST, request.FILES, instance=mascota)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Mascota actualizada exitosamente.')
+                return redirect('home')
+        else:
+            form = MascotaForm(instance=mascota)
+
+    return render(request, 'editar_mascota.html', {
+        'form': form,
+        'mascota': mascota,
+        'mascotas': mascotas,
+        'query': query,
+    })
 
 # Eliminar mascota
-def eliminar_mascota(request, pk):
-    mascota = get_object_or_404(Mascota, pk=pk)
-    mascota.delete()
-    messages.success(request, 'Mascota eliminada exitosamente.')
-    return redirect('home')
+def eliminar_mascota(request, pk=None):
+    mascota = None
+
+    # Si el usuario ha enviado un término de búsqueda por nombre
+    query = request.GET.get('query')
+    if query:
+        mascotas = Mascota.objects.filter(name__icontains=query)
+    else:
+        mascotas = None
+
+    # Si se recibe un pk específico, buscar la mascota para confirmar la eliminación
+    if pk:
+        mascota = get_object_or_404(Mascota, pk=pk)
+        if request.method == 'POST':
+            mascota.delete()
+            messages.success(request, 'Mascota eliminada exitosamente.')
+            return redirect('home')
+
+    return render(request, 'eliminar_mascota.html', {
+        'mascota': mascota,
+        'mascotas': mascotas,
+        'query': query,
+    })
 
 # Crear nuevo lugar de adopción
 def crear_lugar(request):
@@ -52,24 +88,72 @@ def crear_lugar(request):
     return render(request, 'formulario_lugar.html', {'form': form})
 
 # Editar lugar de adopción existente
-def editar_lugar(request, pk):
-    lugar = get_object_or_404(LugarAdopcion, pk=pk)
-    if request.method == 'POST':
-        form = LugarAdopcionForm(request.POST, instance=lugar)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Lugar de adopción actualizado exitosamente.')
-            return redirect('home')
+def editar_lugar(request, pk=None):
+    lugar_adopcion = None
+    form = None
+
+    # Si el usuario ha enviado un término de búsqueda por nombre
+    query = request.GET.get('query')
+    if query:
+        lugares = LugarAdopcion.objects.filter(name__icontains=query)
     else:
-        form = LugarAdopcionForm(instance=lugar)
-    return render(request, 'formulario_lugar.html', {'form': form})
+        lugares = None
+
+    # Si se recibe un pk específico para edición, cargar el lugar correspondiente
+    if pk:
+        lugar_adopcion = get_object_or_404(LugarAdopcion, pk=pk)
+        if request.method == 'POST':
+            form = LugarAdopcionForm(request.POST, instance=lugar_adopcion)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Lugar de adopción actualizado exitosamente.')
+                return redirect('home')  # Cambia 'home' por la URL a la que quieras redirigir
+        else:
+            form = LugarAdopcionForm(instance=lugar_adopcion)
+
+    return render(request, 'editar_lugar.html', {
+        'form': form,
+        'lugar_adopcion': lugar_adopcion,
+        'lugares': lugares,
+        'query': query,
+    })
 
 # Eliminar lugar de adopción
-def eliminar_lugar(request, pk):
-    lugar = get_object_or_404(LugarAdopcion, pk=pk)
-    lugar.delete()
-    messages.success(request, 'Lugar de adopción eliminado exitosamente.')
-    return redirect('home')
+def eliminar_lugar(request, pk=None):
+    lugar_adopcion = None
+
+    # Si el usuario ha enviado un término de búsqueda por nombre
+    query = request.GET.get('query')
+    if query:
+        lugares = LugarAdopcion.objects.filter(name__icontains=query)
+    else:
+        lugares = None
+
+    # Si se recibe un pk específico, buscar el lugar para confirmar la eliminación
+    if pk:
+        lugar_adopcion = get_object_or_404(LugarAdopcion, pk=pk)
+        if request.method == 'POST':
+            lugar_adopcion.delete()
+            messages.success(request, 'Lugar de adopción eliminado exitosamente.')
+            return redirect('home')  # Cambia 'home' por la URL adecuada para redirigir
+
+    return render(request, 'eliminar_lugar.html', {
+        'lugar_adopcion': lugar_adopcion,
+        'lugares': lugares,
+        'query': query,
+    })
+
+
+def crear_tipo_mascota(request):
+    if request.method == 'POST':
+        form = TipoMascotaForm(request.POST)  # Asegúrate de tener un formulario llamado TipoMascotaForm
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Tipo de mascota creado exitosamente.')
+            return redirect('home')  # Redirige a la página principal o a una lista de tipos de mascotas
+    else:
+        form = TipoMascotaForm()
+    return render(request, 'formulario_tipo_mascota.html', {'form': form})
 
 
 def home(request):
