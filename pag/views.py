@@ -176,7 +176,7 @@ def login_user(request):
         if user is not None:
             login(request, user)
 
-            messages.success(request, ('Ha Iniciado Seión'))
+            messages.success(request, ('Ha Iniciado Sesión'))
             return redirect('home')
         else:
             messages.success(request, ("Hubo Un Error, Inténtelo De Nuevo"))
