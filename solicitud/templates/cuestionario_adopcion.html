@@ -1,0 +1,19 @@
+<!-- templates/solicitud/cuestionario_adopcion.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Cuestionario de Adopción para {{ mascota.name }}</h2>
+    <form method="POST" action="{% url 'solicitud:guardar_solicitud' mascota.id %}">
+        {% csrf_token %}
+        {% for pregunta in preguntas %}
+            <div class="mb-3">
+                <label for="pregunta-{{ pregunta.id }}" class="form-label">{{ pregunta.texto_preguntas }}</label>
+                <input type="text" class="form-control" id="pregunta-{{ pregunta.id }}" name="respuesta_{{ pregunta.id }}" required>
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+    </form>
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Volver a Inicio</a>
+</div>
+{% endblock %}
