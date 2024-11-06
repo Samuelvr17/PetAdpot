@@ -13,7 +13,6 @@ class CuestionarioAdopcionView(View):
         })
 
 
-# views.py de la aplicación 'solicitud'
 from django.shortcuts import redirect
 
 class GuardarSolicitudAdopcionView(View):
@@ -27,3 +26,21 @@ class GuardarSolicitudAdopcionView(View):
 
         # Redirigir a una página de éxito o la página de detalles de la mascota
         return redirect('home')
+
+
+class GestionarSolicitudesView(View):
+    def get(self, request):
+        solicitudes = SolicitudAdopcion.objects.filter(estado__isnull=True)
+        return render(request, 'gestionar_solicitudes.html', {'solicitudes': solicitudes})
+
+    def post(self, request):
+        solicitud_id = request.POST.get('solicitud_id')
+        accion = request.POST.get('accion')
+        solicitud = SolicitudAdopcion.objects.get(id=solicitud_id)
+
+        if accion == 'aceptar':
+            solicitud.estado = 'aceptada'
+        elif accion == 'rechazar':
+            solicitud.estado = 'rechazada'
+        solicitud.save()
+        return redirect('gestionar_solicitudes')

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from solicitud.views import GestionarSolicitudesView
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -16,6 +17,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('lista_mascotas/', views.lista_mascotas, name='lista_mascotas'),
     path('lista_lugares/', views.lista_lugares, name='lista_lugares'),
+    path('gestionar-solicitudes/', GestionarSolicitudesView.as_view(), name='gestionar_solicitudes'),
 
 
     # CRUD de Mascotas

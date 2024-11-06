@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Gestión de Solicitudes de Adopción</h1>
+        </div>
+    </div>
+</header>
+
+<!-- Tabla de Solicitudes -->
+<div class="container mt-4" style="max-width: 1600px; padding: 10px;">
+    <div class="card" style="padding: 20px;">
+        <table class="table table-bordered text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th>Username</th>
+                    <th>Mascota</th>
+                    <th>Lugar de Adopción</th>
+                    <th>Fecha Solicitud</th>
+                    <th>Respuestas Cuestionario</th>
+                    <th>Solicitud</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes %}
+                <tr>
+                    <td>{{ solicitud.usuario.username }}</td>
+                    <td>{{ solicitud.mascota.name }}</td>
+                    <td>{{ solicitud.mascota.lugar_adopcion }}</td>
+                    <td>{{ solicitud.fecha_solicitud|date:"d/m/Y" }}</td>
+                    <td>
+                        <ul class="list-unstyled">
+                            {% for respuesta in solicitud.respuestasolicitud_set.all %}
+                                <li><strong>{{ respuesta.pregunta.texto_preguntas }}</strong>: {{ respuesta.respuesta }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="solicitud_id" value="{{ solicitud.id }}">
+                                <button type="submit" name="accion" value="aceptar" class="btn btn-success mx-1">Aceptar</button>
+                                <button type="submit" name="accion" value="rechazar" class="btn btn-danger mx-1">Rechazar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
