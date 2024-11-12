@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'AdoptMascotas.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'petadopt',
+        'USER': 'postgres',
+        'PASSWORD': 'Colombia10.',
+        'HOST': 'localhost',  # o 127.0.0.1
+        'PORT': '5432',
     }
 }
 

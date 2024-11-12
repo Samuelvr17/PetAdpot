@@ -18,6 +18,8 @@ urlpatterns = [
     path('lista_mascotas/', views.lista_mascotas, name='lista_mascotas'),
     path('lista_lugares/', views.lista_lugares, name='lista_lugares'),
     path('gestionar-solicitudes/', GestionarSolicitudesView.as_view(), name='gestionar_solicitudes'),
+    path('agregar_vacuna/', views.agregar_vacuna, name='agregar_vacuna'),
+     path('agregar_vacuna_mascota/', views.agregar_vacuna_mascota, name='agregar_vacuna_mascota'),
 
 
     # CRUD de Mascotas

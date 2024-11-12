@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import CuestionarioAdopcionView, GuardarSolicitudAdopcionView
 
-app_name = 'solicitud'  # Añade esta línea para definir el espacio de nombres
+app_name = 'solicitud'  
 
 urlpatterns = [
     path('mascota/<int:mascota_id>/cuestionario/', CuestionarioAdopcionView.as_view(), name='cuestionario_adopcion'),

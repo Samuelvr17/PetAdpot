@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django import forms
-from .models import Profile, Mascota, LugarAdopcion, Tipo
+from .models import Profile, Mascota, LugarAdopcion, Tipo, Vacuna, MascotaVacuna
 
 
 class MascotaForm(forms.ModelForm):
@@ -143,3 +143,44 @@ class UserInfoForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('phone', 'address', 'city', 'country', 'zipcode')
+
+
+class VacunaForm(forms.ModelForm):
+    class Meta:
+        model = Vacuna
+        fields = ['nombre_vacuna']
+        labels = {
+            'nombre_vacuna': '',  # Deja el label vacío para que no se muestre
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(VacunaForm, self).__init__(*args, **kwargs)
+        self.fields['nombre_vacuna'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Nombre de la vacuna'
+        })
+
+
+class MascotaVacunaForm(forms.ModelForm):
+    class Meta:
+        model = MascotaVacuna
+        fields = ['mascota', 'vacuna', 'fecha_aplicacion', 'fecha_proxima']
+        labels = {
+            'mascota': 'Mascota',
+            'vacuna': 'Vacuna',
+            'fecha_aplicacion': 'Fecha de Aplicación',
+            'fecha_proxima': 'Fecha Próxima',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(MascotaVacunaForm, self).__init__(*args, **kwargs)
+        self.fields['mascota'].widget.attrs.update({'class': 'form-control'})
+        self.fields['vacuna'].widget.attrs.update({'class': 'form-control'})
+        self.fields['fecha_aplicacion'].widget.attrs.update({
+            'class': 'form-control',
+            'type': 'datetime-local'
+        })
+        self.fields['fecha_proxima'].widget.attrs.update({
+            'class': 'form-control',
+            'type': 'datetime-local'
+        })

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .forms import SignUpForm, UserInfoForm, UpdateUserForm, ChangePasswordForm, MascotaForm, LugarAdopcionForm, TipoMascotaForm
+from .forms import SignUpForm, UserInfoForm, UpdateUserForm, ChangePasswordForm, MascotaForm, LugarAdopcionForm, TipoMascotaForm, VacunaForm, MascotaVacunaForm
 from .models import Mascota, Tipo, Profile, LugarAdopcion
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -295,3 +295,35 @@ def search(request):
 			return render(request, "search.html", {'searched':searched})
 	else:
 		return render(request, "search.html", {})
+    
+
+def agregar_vacuna(request):
+    if request.method == 'POST':
+        form = VacunaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'La vacuna ha sido agregada exitosamente.')
+            return redirect('home')  # Cambia esto por la URL a la que deseas redirigir después de agregar
+    else:
+        form = VacunaForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'agregar_vacuna.html', context)
+
+
+def agregar_vacuna_mascota(request):
+    if request.method == 'POST':
+        form = MascotaVacunaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'La vacuna ha sido registrada exitosamente para la mascota.')
+            return redirect('home')  # Cambia esta URL según tu vista de listado
+    else:
+        form = MascotaVacunaForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'agregar_vacuna_mascota.html', context)
